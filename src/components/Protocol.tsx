@@ -1,0 +1,315 @@
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+/* ============================================
+   SVG ANIMATION 1 — Rotating Geometric Motif
+   ============================================ */
+function RotatingMotif() {
+  const svgRef = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    const circles = svgRef.current?.querySelectorAll('circle');
+    if (!circles) return;
+
+    const ctx = gsap.context(() => {
+      gsap.to(circles, {
+        rotation: 360,
+        transformOrigin: '50% 50%',
+        duration: 30,
+        ease: 'none',
+        repeat: -1,
+        stagger: {
+          each: 2,
+          from: 'end',
+        },
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <svg
+      ref={svgRef}
+      viewBox="0 0 400 400"
+      className="w-full h-full opacity-20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {[180, 150, 120, 90, 60, 30].map((r, i) => (
+        <circle
+          key={i}
+          cx="200"
+          cy="200"
+          r={r}
+          fill="none"
+          stroke="#FF3366"
+          strokeWidth="1.5"
+          strokeDasharray={i % 2 === 0 ? '4 6' : '2 8'}
+        />
+      ))}
+    </svg>
+  );
+}
+
+/* ============================================
+   SVG ANIMATION 2 — Scanning Laser Line
+   ============================================ */
+function LaserScan() {
+  const lineRef = useRef<SVGLineElement>(null);
+  const dotsRef = useRef<SVGGElement>(null);
+
+  useEffect(() => {
+    if (!lineRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.to(lineRef.current, {
+        attr: { x1: 400, x2: 400 },
+        duration: 3,
+        ease: 'power2.inOut',
+        repeat: -1,
+        yoyo: true,
+      });
+
+      const dots = dotsRef.current?.querySelectorAll('circle');
+      if (dots) {
+        gsap.to(dots, {
+          opacity: (i: number) => (i % 3 === 0 ? 0.6 : 0.15),
+          duration: 0.5,
+          repeat: -1,
+          yoyo: true,
+          stagger: {
+            each: 0.1,
+            repeat: -1,
+            yoyo: true,
+          },
+        });
+      }
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  const dots = [];
+  for (let row = 0; row < 8; row++) {
+    for (let col = 0; col < 12; col++) {
+      dots.push(
+        <circle
+          key={`${row}-${col}`}
+          cx={30 + col * 30}
+          cy={30 + row * 30}
+          r="2"
+          fill="#3333FF"
+          opacity="0.15"
+        />
+      );
+    }
+  }
+
+  return (
+    <svg
+      viewBox="0 0 400 300"
+      className="w-full h-full"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g ref={dotsRef}>{dots}</g>
+      <line
+        ref={lineRef}
+        x1="0"
+        y1="0"
+        x2="0"
+        y2="300"
+        stroke="#3333FF"
+        strokeWidth="1.5"
+        opacity="0.8"
+      />
+    </svg>
+  );
+}
+
+/* ============================================
+   SVG ANIMATION 3 — Pulsing Waveform
+   ============================================ */
+function Waveform() {
+  const pathRef = useRef<SVGPathElement>(null);
+
+  useEffect(() => {
+    if (!pathRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const length = pathRef.current!.getTotalLength();
+      gsap.set(pathRef.current, {
+        strokeDasharray: length,
+        strokeDashoffset: length,
+      });
+
+      gsap.to(pathRef.current, {
+        strokeDashoffset: 0,
+        duration: 2.5,
+        ease: 'power2.inOut',
+        repeat: -1,
+        yoyo: true,
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <svg
+      viewBox="0 0 400 120"
+      className="w-full h-full"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="none"
+    >
+      <path
+        ref={pathRef}
+        d="M0 60 Q25 20 50 60 T100 60 T150 60 T200 20 T250 60 T300 60 T350 10 T400 60"
+        fill="none"
+        stroke="#FF9933"
+        strokeWidth="2"
+        opacity="0.7"
+      />
+    </svg>
+  );
+}
+
+/* ============================================
+   PROTOCOL SECTION (Renamed to Projects)
+   ============================================ */
+const protocols = [
+  {
+    step: '01',
+    title: 'AI Healthcare Claims',
+    description:
+      'An autonomous platform that processes insurance claims using NLP and intelligent automation workflows.',
+    tags: ['Python', 'NLP', 'n8n', 'Automation'],
+    visual: <RotatingMotif />,
+  },
+  {
+    step: '02',
+    title: 'Lead Generation System',
+    description:
+      'A fully automated outreach engine that identifies prospects, personalizes messaging, and manages follow-ups.',
+    tags: ['AI Agents', 'APIs', 'Python', 'Automation'],
+    visual: <LaserScan />,
+  },
+  {
+    step: '03',
+    title: 'LLM RAG Chatbot',
+    description:
+      'Retrieval-Augmented Generation system leveraging custom knowledge bases for accurate enterprise queries.',
+    tags: ['LLM', 'RAG', 'Vector DB', 'Python'],
+    visual: <Waveform />,
+  },
+];
+
+export default function Protocol() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const cardsRef = useRef<HTMLDivElement[]>([]);
+
+  useEffect(() => {
+    const cards = cardsRef.current.filter(Boolean);
+    if (cards.length === 0) return;
+
+    const ctx = gsap.context(() => {
+      cards.forEach((card, i) => {
+        const isLast = i === cards.length - 1;
+
+        ScrollTrigger.create({
+          trigger: card,
+          start: 'top top',
+          end: isLast ? '+=50%' : 'bottom top',
+          pin: true,
+          pinSpacing: isLast,
+          scrub: true,
+          onUpdate: (self) => {
+            const prev = cards[i - 1];
+            if (prev) {
+              const progress = self.progress;
+              gsap.set(prev, {
+                scale: 1 - progress * 0.05,
+                filter: `blur(${progress * 10}px)`,
+                opacity: 1 - progress * 0.3,
+              });
+            }
+          },
+        });
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section id="protocol" ref={sectionRef} className="relative bg-background">
+      <div className="py-24 md:py-32 px-6">
+        <div className="max-w-6xl mx-auto text-center mb-16">
+          <span className="text-[12px] font-mono-accent uppercase tracking-[0.3em] text-text-secondary mb-4 block">
+            Portfolio
+          </span>
+          <h2 className="text-5xl md:text-7xl font-bold tracking-tighter text-text-primary mb-4 uppercase">
+            Selected <span className="text-gradient">Projects.</span>
+          </h2>
+          <p className="text-xl text-text-secondary max-w-xl mx-auto leading-relaxed font-light">
+            Real-world systems solving real problems using AI.
+          </p>
+        </div>
+      </div>
+
+      {/* Stacking Cards */}
+      <div className="relative">
+        {protocols.map((protocol, i) => (
+          <div
+            key={protocol.step}
+            ref={(el) => {
+              if (el) cardsRef.current[i] = el;
+            }}
+            className="w-full min-h-[100dvh] flex items-center justify-center px-6 py-16"
+          >
+            <div className="w-full max-w-5xl rounded-none bg-surface border border-border overflow-hidden shadow-2xl">
+              <div className="grid md:grid-cols-2 gap-0">
+                {/* Visual Side */}
+                <div className="relative h-64 md:h-auto md:min-h-[500px] bg-background flex items-center justify-center p-8 overflow-hidden border-r border-border">
+                  <div className="absolute inset-0 opacity-40">
+                    {protocol.visual}
+                  </div>
+                  <div className="relative z-10">
+                    <span className="text-8xl md:text-9xl font-bold text-text-primary/5">
+                      {protocol.step}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Content Side */}
+                <div className="p-8 md:p-12 flex flex-col justify-center">
+                  <span className="text-[10px] font-mono-accent uppercase tracking-[0.25em] text-text-secondary mb-4 block">
+                    Project {protocol.step}
+                  </span>
+                  <h3 className="text-3xl md:text-4xl font-bold text-text-primary mb-6 tracking-tight uppercase">
+                    {protocol.title}
+                  </h3>
+                  <p className="text-lg text-text-secondary leading-relaxed mb-8 font-light">
+                    {protocol.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {protocol.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-3 py-1.5 text-xs font-mono-accent font-medium bg-surface border border-text-primary/20 text-text-primary uppercase tracking-wider"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
