@@ -7,7 +7,7 @@ const projects = [
     title: 'AI Healthcare Claims Assistance',
     description:
       'An AI-powered platform that automates and assists with healthcare insurance claims processing, reducing manual effort and improving accuracy using NLP and automation workflows.',
-    tags: ['Python', 'Automation', 'NLP', 'n8n'],
+    tags: ['AI', 'Automation', 'Rust', 'JavaScript'],
     icon: Stethoscope,
     year: '2026',
   },
@@ -23,7 +23,7 @@ const projects = [
     title: 'LLM RAG Chatbot',
     description:
       'A Retrieval-Augmented Generation chatbot that leverages custom knowledge bases to provide accurate, context-aware responses for enterprise queries.',
-    tags: ['LLM', 'RAG', 'Python', 'Vector DB'],
+    tags: ['LLM', 'RAG', 'Python', 'Streamlit'],
     icon: Bot,
     year: 'Aug 2024',
   },
@@ -31,7 +31,7 @@ const projects = [
     title: 'Voice AI Call Handler',
     description:
       'A fully automated inbound call handling system using voice AI, capable of understanding caller intent, answering queries, and routing calls intelligently.',
-    tags: ['Voice AI', 'Python', 'Twilio', 'STT/TTS'],
+    tags: ['Voice AI', 'VAPI', 'APIs', 'n8n', 'Prompt Engineering'],
     icon: Phone,
     year: 'Feb 2025',
   },
@@ -39,7 +39,7 @@ const projects = [
     title: 'AI Lead Qualification Agent',
     description:
       'An intelligent appointment setter and lead qualification agent that engages prospects, scores leads, and books meetings autonomously.',
-    tags: ['AI Agents', 'Automation', 'Python', 'n8n'],
+    tags: ['AI Agents', 'Automation', 'APIs', 'n8n'],
     icon: Calendar,
     year: 'Jun 2025',
   },
@@ -47,7 +47,7 @@ const projects = [
     title: 'LinkedIn Content Automation',
     description:
       'An automated system that generates, schedules, and posts engaging LinkedIn content using AI-driven copywriting and trend analysis.',
-    tags: ['Automation', 'Content AI', 'APIs', 'Python'],
+    tags: ['Automation', 'Content AI', 'APIs', 'n8n'],
     icon: Globe,
     year: 'Jul 2025',
   },
