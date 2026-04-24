@@ -185,7 +185,7 @@ const protocols = [
     title: 'AI Healthcare Claims',
     description:
       'An autonomous platform that processes insurance claims using NLP and intelligent automation workflows.',
-    tags: ['Python', 'NLP', 'n8n', 'Automation'],
+    tags: ['AI', 'Automation', 'Rust', 'JavaScript'],
     visual: <RotatingMotif />,
   },
   {
@@ -201,7 +201,7 @@ const protocols = [
     title: 'LLM RAG Chatbot',
     description:
       'Retrieval-Augmented Generation system leveraging custom knowledge bases for accurate enterprise queries.',
-    tags: ['LLM', 'RAG', 'Vector DB', 'Python'],
+    tags: ['LLM', 'RAG', 'Python', 'Streamlit'],
     visual: <Waveform />,
   },
 ];
