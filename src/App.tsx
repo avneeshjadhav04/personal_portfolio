@@ -12,7 +12,6 @@ import Skills from './components/Skills';
 import Experience from './components/Experience';
 import Certifications from './components/Certifications';
 import Protocol from './components/Protocol';
-import Achievements from './components/Achievements';
 import Contact from './components/Contact';
 import Collaboration from './components/Collaboration';
 import Footer from './components/Footer';
@@ -51,8 +50,6 @@ function App() {
           <Certifications />
           <div className="section-divider" />
           <Protocol />
-          <div className="section-divider" />
-          <Achievements />
           <div className="section-divider" />
           <Contact />
           <div className="section-divider" />
