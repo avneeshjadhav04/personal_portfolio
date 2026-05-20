@@ -91,13 +91,13 @@ function AutoPlayVideo({ src }: { src: string }) {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.85) {
+        if (entry.isIntersecting && entry.intersectionRatio >= 1) {
           video.play();
         } else {
           video.pause();
         }
       },
-      { threshold: [0, 0.25, 0.5, 0.75, 0.85, 1] }
+      { threshold: [0, 0.25, 0.5, 0.75, 0.9, 0.95, 1] }
     );
 
     observer.observe(video);
