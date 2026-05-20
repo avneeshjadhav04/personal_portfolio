@@ -80,34 +80,12 @@ function LaserScan() {
 }
 
 /* ============================================
-   VIDEO COMPONENT — Auto-play only when fully in view
+   VIDEO COMPONENT — Controlled by ScrollTrigger
    ============================================ */
 function AutoPlayVideo({ src }: { src: string }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && entry.intersectionRatio >= 1) {
-          video.play();
-        } else {
-          video.pause();
-        }
-      },
-      { threshold: [0, 0.25, 0.5, 0.75, 0.9, 0.95, 1] }
-    );
-
-    observer.observe(video);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <div className="w-full h-full flex items-center justify-center">
       <video
-        ref={videoRef}
         src={src}
         loop
         playsInline
@@ -171,13 +149,34 @@ export default function Protocol() {
           scrub: true,
           onUpdate: (self) => {
             const prev = cards[i - 1];
+            const progress = self.progress;
+
+            // Animate previous card (scale, blur, fade)
             if (prev) {
-              const progress = self.progress;
               gsap.set(prev, {
                 scale: 1 - progress * 0.05,
                 filter: `blur(${progress * 10}px)`,
                 opacity: 1 - progress * 0.3,
               });
+            }
+
+            // Video playback control
+            const currentVideo = card.querySelector('video') as HTMLVideoElement | null;
+            const prevVideo = prev?.querySelector('video') as HTMLVideoElement | null;
+
+            // Pause previous card's video as soon as current card starts covering it
+            if (prevVideo && progress > 0) {
+              prevVideo.pause();
+            }
+
+            // Play current card's video only when fully visible (progress near 0)
+            // Pause when being covered by next card (progress increases)
+            if (currentVideo) {
+              if (progress < 0.05) {
+                currentVideo.play();
+              } else {
+                currentVideo.pause();
+              }
             }
           },
         });
@@ -185,6 +184,20 @@ export default function Protocol() {
     }, sectionRef);
 
     return () => ctx.revert();
+  }, []);
+
+  // Auto-play first card's video on initial load
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const firstCard = cardsRef.current[0];
+      if (firstCard) {
+        const video = firstCard.querySelector('video') as HTMLVideoElement | null;
+        if (video) {
+          video.play();
+        }
+      }
+    }, 500);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
