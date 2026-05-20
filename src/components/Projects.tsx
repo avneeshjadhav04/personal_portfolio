@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Bot, Stethoscope, Phone, Calendar, Globe, Home, CreditCard } from 'lucide-react';
+import { Bot, Stethoscope, Phone, Calendar, Globe, Home, CreditCard, Cpu } from 'lucide-react';
 import TiltCard from './TiltCard';
 
 const projects = [
@@ -20,12 +20,12 @@ const projects = [
     year: '2026',
   },
   {
-    title: 'LLM RAG Chatbot',
+    title: 'Project Vulcan: AI Assistant',
     description:
-      'A Retrieval-Augmented Generation chatbot that leverages custom knowledge bases to provide accurate, context-aware responses for enterprise queries.',
-    tags: ['LLM', 'RAG', 'Python', 'Streamlit'],
-    icon: Bot,
-    year: 'Aug 2024',
+      'An open-source platform that helps you operate AI with terminal-level access for your daily workflows, making them simpler, more secure, and self-hosted.',
+    tags: ['TypeScript', 'React', 'Rust', 'Axum', 'SQLite', 'AI'],
+    icon: Cpu,
+    year: '2026',
   },
   {
     title: 'Voice AI Call Handler',

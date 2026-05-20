@@ -177,6 +177,22 @@ function Waveform() {
 }
 
 /* ============================================
+   VIDEO COMPONENT — Project Vulcan
+   ============================================ */
+function VulcanVideo() {
+  return (
+    <video
+      src="/project-vulcan.mp4"
+      autoPlay
+      loop
+      muted
+      playsInline
+      className="w-full h-full object-cover"
+    />
+  );
+}
+
+/* ============================================
    PROTOCOL SECTION (Renamed to Projects)
    ============================================ */
 const protocols = [
@@ -198,11 +214,12 @@ const protocols = [
   },
   {
     step: '03',
-    title: 'LLM RAG Chatbot',
+    title: 'Project Vulcan: AI Assistant',
     description:
-      'Retrieval-Augmented Generation system leveraging custom knowledge bases for accurate enterprise queries.',
-    tags: ['LLM', 'RAG', 'Python', 'Streamlit'],
-    visual: <Waveform />,
+      'An open-source platform that helps you operate AI with terminal-level access for your daily workflows, making them simpler, more secure, and self-hosted.',
+    tags: ['TypeScript', 'React', 'Rust', 'Axum', 'SQLite', 'AI'],
+    visual: <VulcanVideo />,
+    link: 'https://project-vulcan.onrender.com/',
   },
 ];
 
@@ -294,7 +311,7 @@ export default function Protocol() {
                   <p className="text-lg text-text-secondary leading-relaxed mb-8 font-light">
                     {protocol.description}
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 mb-8">
                     {protocol.tags.map((tag) => (
                       <span
                         key={tag}
@@ -304,6 +321,16 @@ export default function Protocol() {
                       </span>
                     ))}
                   </div>
+                  {protocol.link && (
+                    <a
+                      href={protocol.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center px-8 py-4 bg-text-primary text-surface font-mono-accent text-sm uppercase tracking-widest hover:bg-accent transition-colors duration-300"
+                    >
+                      View Project
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
