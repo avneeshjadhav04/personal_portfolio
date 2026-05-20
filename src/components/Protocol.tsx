@@ -80,7 +80,7 @@ function LaserScan() {
 }
 
 /* ============================================
-   VIDEO COMPONENT — Controlled by ScrollTrigger
+   VIDEO COMPONENT — Paused by default, user-controlled
    ============================================ */
 function AutoPlayVideo({ src }: { src: string }) {
   return (
@@ -159,40 +159,10 @@ export default function Protocol() {
                 opacity: 1 - progress * 0.3,
               });
             }
-
-            // Video playback control — only the fully-visible card plays
-            cards.forEach((c) => {
-              const v = c.querySelector('video') as HTMLVideoElement | null;
-              if (v) v.pause();
-            });
-
-            const currentVideo = card.querySelector('video') as HTMLVideoElement | null;
-            if (currentVideo && progress < 0.05) {
-              currentVideo.play();
-            }
           },
         });
       });
     }, sectionRef);
-
-    // Section-level trigger: pause all videos when user scrolls away from Protocol entirely
-    ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: 'top bottom',
-      end: 'bottom top',
-      onLeave: () => {
-        cardsRef.current.forEach((card) => {
-          const video = card.querySelector('video') as HTMLVideoElement | null;
-          if (video) video.pause();
-        });
-      },
-      onLeaveBack: () => {
-        cardsRef.current.forEach((card) => {
-          const video = card.querySelector('video') as HTMLVideoElement | null;
-          if (video) video.pause();
-        });
-      },
-    });
 
     return () => ctx.revert();
   }, []);
