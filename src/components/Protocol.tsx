@@ -136,11 +136,13 @@ export default function Protocol() {
     const cards = cardsRef.current.filter(Boolean);
     if (cards.length === 0) return;
 
+    const stRefs: ScrollTrigger[] = [];
+
     const ctx = gsap.context(() => {
       cards.forEach((card, i) => {
         const isLast = i === cards.length - 1;
 
-        ScrollTrigger.create({
+        const st = ScrollTrigger.create({
           trigger: card,
           start: 'top top',
           end: isLast ? '+=50%' : 'bottom top',
@@ -159,10 +161,37 @@ export default function Protocol() {
                 opacity: 1 - progress * 0.3,
               });
             }
+
+            // Pause videos on cards that are not the current top card
+            syncVideos();
           },
         });
+
+        stRefs.push(st);
       });
     }, sectionRef);
+
+    function syncVideos() {
+      // Find the card that is currently pinned and has the lowest progress
+      // (most recently reached the top — the one on top visually)
+      let activeIdx = -1;
+      let minProgress = Infinity;
+
+      stRefs.forEach((st, idx) => {
+        if (st.isActive && st.progress < minProgress) {
+          minProgress = st.progress;
+          activeIdx = idx;
+        }
+      });
+
+      // Pause all videos except the active (top) card
+      cards.forEach((card, idx) => {
+        const video = card.querySelector('video') as HTMLVideoElement | null;
+        if (video && idx !== activeIdx) {
+          video.pause();
+        }
+      });
+    }
 
     return () => ctx.revert();
   }, []);
