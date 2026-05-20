@@ -105,14 +105,16 @@ function AutoPlayVideo({ src }: { src: string }) {
   }, []);
 
   return (
-    <video
-      ref={videoRef}
-      src={src}
-      loop
-      playsInline
-      controls
-      className="w-full h-full object-cover"
-    />
+    <div className="w-full h-full flex items-center justify-center">
+      <video
+        ref={videoRef}
+        src={src}
+        loop
+        playsInline
+        controls
+        className="max-w-[85%] max-h-[85%] object-contain"
+      />
+    </div>
   );
 }
 
