@@ -5,57 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 /* ============================================
-   SVG ANIMATION 1 — Rotating Geometric Motif
-   ============================================ */
-function RotatingMotif() {
-  const svgRef = useRef<SVGSVGElement>(null);
-
-  useEffect(() => {
-    const circles = svgRef.current?.querySelectorAll('circle');
-    if (!circles) return;
-
-    const ctx = gsap.context(() => {
-      gsap.to(circles, {
-        rotation: 360,
-        transformOrigin: '50% 50%',
-        duration: 30,
-        ease: 'none',
-        repeat: -1,
-        stagger: {
-          each: 2,
-          from: 'end',
-        },
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <svg
-      ref={svgRef}
-      viewBox="0 0 400 400"
-      className="w-full h-full opacity-20"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {[180, 150, 120, 90, 60, 30].map((r, i) => (
-        <circle
-          key={i}
-          cx="200"
-          cy="200"
-          r={r}
-          fill="none"
-          stroke="#FF3366"
-          strokeWidth="1.5"
-          strokeDasharray={i % 2 === 0 ? '4 6' : '2 8'}
-        />
-      ))}
-    </svg>
-  );
-}
-
-/* ============================================
-   SVG ANIMATION 2 — Scanning Laser Line
+   SVG ANIMATION — Scanning Laser Line
    ============================================ */
 function LaserScan() {
   const lineRef = useRef<SVGLineElement>(null);
