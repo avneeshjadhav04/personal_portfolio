@@ -66,6 +66,15 @@ const certifications = [
     borderColor: 'border-yellow-500/30',
     iconColor: 'text-yellow-400',
   },
+  {
+    title: 'Advanced Rust: Managing Projects',
+    org: 'LinkedIn',
+    skills: ['Rust', 'Project Management'],
+    icon: Award,
+    color: 'from-orange-500/20 to-amber-500/20',
+    borderColor: 'border-orange-500/30',
+    iconColor: 'text-orange-400',
+  },
 ];
 
 const container = {
@@ -97,9 +106,10 @@ export default function Certifications() {
           </h2>
           <h3 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">Certifications</h3>
           <p className="text-text-secondary max-w-2xl mx-auto leading-relaxed">
-            Industry-recognized certifications from <span className="font-mono-accent text-accent-teal">Stanford</span>, 
-            <span className="font-mono-accent text-accent-teal"> Nvidia</span>, 
-            <span className="font-mono-accent text-accent-teal"> Oracle</span>, and 
+            Industry-recognized certifications from <span className="font-mono-accent text-accent-teal">Stanford</span>,
+            <span className="font-mono-accent text-accent-teal"> Nvidia</span>,
+            <span className="font-mono-accent text-accent-teal"> Oracle</span>,
+            <span className="font-mono-accent text-accent-teal"> LinkedIn</span>, and
             <span className="font-mono-accent text-accent-teal"> Anthropic</span>.
           </p>
         </motion.div>
