@@ -183,41 +183,16 @@ export default function Protocol() {
       });
     }, sectionRef);
 
-    // Section-level trigger: pause all videos when user scrolls away from Protocol
+    // Section-level trigger: pause all videos when user scrolls away from Protocol entirely
     ScrollTrigger.create({
       trigger: sectionRef.current,
       start: 'top bottom',
       end: 'bottom top',
-      onEnter: () => {
-        const firstVideo = cardsRef.current[0]?.querySelector('video') as HTMLVideoElement | null;
-        if (firstVideo) firstVideo.play();
-      },
       onLeave: () => {
         cardsRef.current.forEach((card) => {
           const video = card.querySelector('video') as HTMLVideoElement | null;
           if (video) video.pause();
         });
-      },
-      onEnterBack: () => {
-        // Find the card that is currently most visible and play its video
-        // (The card-level triggers will handle this via onUpdate, but let's ensure
-        // the last active card resumes if needed)
-        const lastVisibleCard = [...cardsRef.current].reverse().find((card) => {
-          const rect = card.getBoundingClientRect();
-          return rect.top < window.innerHeight && rect.bottom > 0;
-        });
-        if (lastVisibleCard) {
-          const video = lastVisibleCard.querySelector('video') as HTMLVideoElement | null;
-          if (video && video.paused) {
-            // Only play if this card's ScrollTrigger progress is near 0 (fully visible)
-            const st = ScrollTrigger.getAll().find(
-              (t) => t.trigger === lastVisibleCard && t.vars.pin
-            );
-            if (st && st.progress < 0.05) {
-              video.play();
-            }
-          }
-        }
       },
       onLeaveBack: () => {
         cardsRef.current.forEach((card) => {
