@@ -130,33 +130,38 @@ function LaserScan() {
 }
 
 /* ============================================
-   VIDEO COMPONENT — Project Vulcan
+   VIDEO COMPONENT — Auto-play on visible
    ============================================ */
-function VulcanVideo() {
-  return (
-    <video
-      src="/project-vulcan.mp4"
-      autoPlay
-      loop
-      playsInline
-      controls
-      className="w-full h-full object-cover"
-    />
-  );
-}
+function AutoPlayVideo({ src }: { src: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-/* ============================================
-   VIDEO COMPONENT — Kovero AI
-   ============================================ */
-function KoveroVideo() {
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play();
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <video
-      src="/kovero-ai.mp4"
-      autoPlay
+      ref={videoRef}
+      src={src}
       loop
       playsInline
       controls
-      className="w-full h-full object-cover"
+      className="w-full h-full object-contain bg-black"
     />
   );
 }
@@ -171,7 +176,7 @@ const protocols = [
     description:
       'An open-source platform that helps you operate AI with terminal-level access for your daily workflows, making them simpler, more secure, and self-hosted.',
     tags: ['TypeScript', 'React', 'Rust', 'Axum', 'SQLite', 'AI'],
-    visual: <VulcanVideo />,
+    visual: <AutoPlayVideo src="/project-vulcan.mp4" />,
     link: 'https://project-vulcan.onrender.com/',
   },
   {
@@ -180,7 +185,7 @@ const protocols = [
     description:
       'A full-fledged user-centric insurance claims assistance platform that simplifies finding the right health policies and helps users prepare for claims. Integrates AI using OCR and transformer-based LLMs for document verification and query resolution.',
     tags: ['Next.js', 'React', 'TypeScript', 'Rust', 'Axum', 'SQLite', 'Docker', 'AI'],
-    visual: <KoveroVideo />,
+    visual: <AutoPlayVideo src="/kovero-ai.mp4" />,
     link: 'https://koveroai-alpha.onrender.com/',
   },
   {
