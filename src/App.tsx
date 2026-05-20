@@ -7,13 +7,13 @@ import Hero from './components/Hero';
 import Features from './components/Features';
 import About from './components/About';
 import Philosophy from './components/Philosophy';
-import Projects from './components/Projects';
 import Skills from './components/Skills';
-import Experience from './components/Experience';
-import Certifications from './components/Certifications';
 import Protocol from './components/Protocol';
+import Projects from './components/Projects';
+import Experience from './components/Experience';
+import Achievements from './components/Achievements';
+import Certifications from './components/Certifications';
 import Contact from './components/Contact';
-import Collaboration from './components/Collaboration';
 import Footer from './components/Footer';
 import Preloader from './components/Preloader';
 
@@ -41,19 +41,19 @@ function App() {
           <div className="section-divider" />
           <Philosophy />
           <div className="section-divider" />
-          <Projects />
-          <div className="section-divider" />
           <Skills />
-          <div className="section-divider" />
-          <Experience />
-          <div className="section-divider" />
-          <Certifications />
           <div className="section-divider" />
           <Protocol />
           <div className="section-divider" />
-          <Contact />
+          <Projects />
           <div className="section-divider" />
-          <Collaboration />
+          <Experience />
+          <div className="section-divider" />
+          <Achievements />
+          <div className="section-divider" />
+          <Certifications />
+          <div className="section-divider" />
+          <Contact />
         </main>
         <Footer />
       </div>

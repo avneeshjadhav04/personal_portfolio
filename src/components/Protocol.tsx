@@ -201,7 +201,7 @@ export default function Protocol() {
   }, []);
 
   return (
-    <section id="protocol" ref={sectionRef} className="relative bg-background">
+    <section id="projects" ref={sectionRef} className="relative bg-background">
       <div className="py-24 md:py-32 px-6">
         <div className="max-w-6xl mx-auto text-center mb-16">
           <span className="text-[12px] font-mono-accent uppercase tracking-[0.3em] text-text-secondary mb-4 block">
