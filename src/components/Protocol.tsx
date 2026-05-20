@@ -138,8 +138,8 @@ function VulcanVideo() {
       src="/project-vulcan.mp4"
       autoPlay
       loop
-      muted
       playsInline
+      controls
       className="w-full h-full object-cover"
     />
   );
@@ -242,8 +242,8 @@ export default function Protocol() {
             <div className="w-full max-w-5xl rounded-none bg-surface border border-border overflow-hidden shadow-2xl">
               <div className="grid md:grid-cols-2 gap-0">
                 {/* Visual Side */}
-                <div className="relative h-64 md:h-auto md:min-h-[500px] bg-background flex items-center justify-center p-8 overflow-hidden border-r border-border">
-                  <div className="absolute inset-0 opacity-40">
+                <div className="relative h-64 md:h-auto md:min-h-[500px] bg-background flex items-center justify-center overflow-hidden border-r border-border">
+                  <div className="absolute inset-0">
                     {protocol.visual}
                   </div>
                   <div className="relative z-10">
