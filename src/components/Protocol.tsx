@@ -111,7 +111,7 @@ function AutoPlayVideo({ src }: { src: string }) {
       loop
       playsInline
       controls
-      className="w-full h-full object-contain bg-black"
+      className="w-full h-full object-contain"
     />
   );
 }
