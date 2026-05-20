@@ -130,53 +130,6 @@ function LaserScan() {
 }
 
 /* ============================================
-   SVG ANIMATION 3 — Pulsing Waveform
-   ============================================ */
-function Waveform() {
-  const pathRef = useRef<SVGPathElement>(null);
-
-  useEffect(() => {
-    if (!pathRef.current) return;
-
-    const ctx = gsap.context(() => {
-      const length = pathRef.current!.getTotalLength();
-      gsap.set(pathRef.current, {
-        strokeDasharray: length,
-        strokeDashoffset: length,
-      });
-
-      gsap.to(pathRef.current, {
-        strokeDashoffset: 0,
-        duration: 2.5,
-        ease: 'power2.inOut',
-        repeat: -1,
-        yoyo: true,
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <svg
-      viewBox="0 0 400 120"
-      className="w-full h-full"
-      xmlns="http://www.w3.org/2000/svg"
-      preserveAspectRatio="none"
-    >
-      <path
-        ref={pathRef}
-        d="M0 60 Q25 20 50 60 T100 60 T150 60 T200 20 T250 60 T300 60 T350 10 T400 60"
-        fill="none"
-        stroke="#FF9933"
-        strokeWidth="2"
-        opacity="0.7"
-      />
-    </svg>
-  );
-}
-
-/* ============================================
    VIDEO COMPONENT — Project Vulcan
    ============================================ */
 function VulcanVideo() {
