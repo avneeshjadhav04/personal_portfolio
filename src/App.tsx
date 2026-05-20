@@ -1,20 +1,29 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import './index.css';
 import SmoothScrollProvider from './components/SmoothScroll';
 import ScrollProgress from './components/ScrollProgress';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Features from './components/Features';
-import About from './components/About';
-import Philosophy from './components/Philosophy';
-import Skills from './components/Skills';
-import Protocol from './components/Protocol';
-import Projects from './components/Projects';
-import Experience from './components/Experience';
-import Certifications from './components/Certifications';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
 import Preloader from './components/Preloader';
+
+// Lazy load all heavy section components for smaller initial bundle
+const Hero = lazy(() => import('./components/Hero'));
+const Features = lazy(() => import('./components/Features'));
+const About = lazy(() => import('./components/About'));
+const Philosophy = lazy(() => import('./components/Philosophy'));
+const Skills = lazy(() => import('./components/Skills'));
+const FeaturedProjects = lazy(() => import('./components/FeaturedProjects'));
+const Projects = lazy(() => import('./components/Projects'));
+const Experience = lazy(() => import('./components/Experience'));
+const Certifications = lazy(() => import('./components/Certifications'));
+const Contact = lazy(() => import('./components/Contact'));
+const Footer = lazy(() => import('./components/Footer'));
+
+// Minimal fallback to prevent layout shift while lazy sections load
+const SectionFallback = () => (
+  <div className="min-h-[50vh] flex items-center justify-center">
+    <div className="w-8 h-8 border-2 border-text-primary/20 border-t-accent rounded-full animate-spin" />
+  </div>
+);
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -23,7 +32,7 @@ function App() {
     <SmoothScrollProvider>
       <div className="relative min-h-screen bg-background text-text-primary selection:bg-accent/30">
         {!loaded && <Preloader onComplete={() => setLoaded(true)} />}
-        {/* Vivid Gradient Background Mesh */}
+        {/* GPU-Optimized Gradient Background Mesh */}
         <div className="gradient-mesh">
           <div className="gradient-blob blob-1" />
           <div className="gradient-blob blob-2" />
@@ -32,27 +41,69 @@ function App() {
         <ScrollProgress />
         <Navbar />
         <main>
-          <Hero />
+          <div className="content-visibility-auto">
+            <Suspense fallback={<SectionFallback />}>
+              <Hero />
+            </Suspense>
+          </div>
           <div className="section-divider" />
-          <Features />
+          <div className="content-visibility-auto">
+            <Suspense fallback={<SectionFallback />}>
+              <Features />
+            </Suspense>
+          </div>
           <div className="section-divider" />
-          <About />
+          <div className="content-visibility-auto">
+            <Suspense fallback={<SectionFallback />}>
+              <About />
+            </Suspense>
+          </div>
           <div className="section-divider" />
-          <Philosophy />
+          <div className="content-visibility-auto">
+            <Suspense fallback={<SectionFallback />}>
+              <Philosophy />
+            </Suspense>
+          </div>
           <div className="section-divider" />
-          <Skills />
+          <div className="content-visibility-auto">
+            <Suspense fallback={<SectionFallback />}>
+              <Skills />
+            </Suspense>
+          </div>
           <div className="section-divider" />
-          <Protocol />
+          <div className="content-visibility-auto">
+            <Suspense fallback={<SectionFallback />}>
+              <FeaturedProjects />
+            </Suspense>
+          </div>
           <div className="section-divider" />
-          <Projects />
+          <div className="content-visibility-auto">
+            <Suspense fallback={<SectionFallback />}>
+              <Projects />
+            </Suspense>
+          </div>
           <div className="section-divider" />
-          <Experience />
+          <div className="content-visibility-auto">
+            <Suspense fallback={<SectionFallback />}>
+              <Experience />
+            </Suspense>
+          </div>
           <div className="section-divider" />
-          <Certifications />
+          <div className="content-visibility-auto">
+            <Suspense fallback={<SectionFallback />}>
+              <Certifications />
+            </Suspense>
+          </div>
           <div className="section-divider" />
-          <Contact />
+          <div className="content-visibility-auto">
+            <Suspense fallback={<SectionFallback />}>
+              <Contact />
+            </Suspense>
+          </div>
         </main>
-        <Footer />
+        <Suspense fallback={<SectionFallback />}>
+          <Footer />
+        </Suspense>
       </div>
     </SmoothScrollProvider>
   );

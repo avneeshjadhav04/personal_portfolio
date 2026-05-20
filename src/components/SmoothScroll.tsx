@@ -15,12 +15,14 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
       'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
     const lenis = new Lenis({
-      duration: isMobile ? 1.0 : 1.4,
+      duration: isMobile ? 1.0 : 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
       touchMultiplier: 1.5,
+      // Use native RAF for smoother sync with browser
+      infinite: false,
     });
 
     lenisRef.current = lenis;
