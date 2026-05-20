@@ -80,7 +80,7 @@ function LaserScan() {
 }
 
 /* ============================================
-   VIDEO COMPONENT — Auto-play on visible
+   VIDEO COMPONENT — Auto-play only when fully in view
    ============================================ */
 function AutoPlayVideo({ src }: { src: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -91,13 +91,13 @@ function AutoPlayVideo({ src }: { src: string }) {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.85) {
           video.play();
         } else {
           video.pause();
         }
       },
-      { threshold: 0.5 }
+      { threshold: [0, 0.25, 0.5, 0.75, 0.85, 1] }
     );
 
     observer.observe(video);
@@ -111,7 +111,7 @@ function AutoPlayVideo({ src }: { src: string }) {
       loop
       playsInline
       controls
-      className="w-full h-full object-contain"
+      className="w-full h-full object-cover"
     />
   );
 }
@@ -214,7 +214,7 @@ export default function Protocol() {
             <div className="w-full max-w-5xl rounded-none bg-surface border border-border overflow-hidden shadow-2xl">
               <div className="grid md:grid-cols-2 gap-0">
                 {/* Visual Side */}
-                <div className="relative h-64 md:h-auto md:min-h-[500px] bg-background flex items-center justify-center overflow-hidden border-r border-border">
+                <div className="relative h-64 md:h-auto md:min-h-[500px] flex items-center justify-center overflow-hidden border-r border-border">
                   <div className="absolute inset-0">
                     {protocol.visual}
                   </div>
