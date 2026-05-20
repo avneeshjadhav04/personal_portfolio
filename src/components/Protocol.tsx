@@ -80,44 +80,16 @@ function LaserScan() {
 }
 
 /* ============================================
-   LAZY VIDEO COMPONENT — Only loads when near viewport
+   VIDEO COMPONENT — Paused by default, user-controlled
    ============================================ */
-function LazyVideo({ src }: { src: string }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    const container = containerRef.current;
-    if (!video || !container) return;
-
-    // Use IntersectionObserver to only load/play video when visible
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          video.src = src;
-          video.load();
-          observer.unobserve(container);
-        }
-      },
-      { rootMargin: '200px' }
-    );
-
-    observer.observe(container);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [src]);
-
+function AutoPlayVideo({ src }: { src: string }) {
   return (
-    <div ref={containerRef} className="w-full h-full flex items-center justify-center">
+    <div className="w-full h-full flex items-center justify-center">
       <video
-        ref={videoRef}
+        src={src}
         loop
         playsInline
         controls
-        preload="none"
         className="max-w-[85%] max-h-[85%] object-contain"
       />
     </div>
@@ -134,7 +106,7 @@ const protocols = [
     description:
       'An open-source platform that helps you operate AI with terminal-level access for your daily workflows, making them simpler, more secure, and self-hosted.',
     tags: ['TypeScript', 'React', 'Rust', 'Axum', 'SQLite', 'AI'],
-    visual: <LazyVideo src="/project-vulcan.mp4" />,
+    visual: <AutoPlayVideo src="/project-vulcan.mp4" />,
     link: 'https://project-vulcan.onrender.com/',
   },
   {
@@ -143,7 +115,7 @@ const protocols = [
     description:
       'A full-fledged user-centric insurance claims assistance platform that simplifies finding the right health policies and helps users prepare for claims. Integrates AI using OCR and transformer-based LLMs for document verification and query resolution.',
     tags: ['Next.js', 'React', 'TypeScript', 'Rust', 'Axum', 'SQLite', 'Docker', 'AI'],
-    visual: <LazyVideo src="/kovero-ai.mp4" />,
+    visual: <AutoPlayVideo src="/kovero-ai.mp4" />,
     link: 'https://koveroai-alpha.onrender.com/',
   },
   {
