@@ -4,10 +4,18 @@ import TiltCard from './TiltCard';
 
 const projects = [
   {
-    title: 'AI Healthcare Claims Assistance',
+    title: 'Project Vulcan: AI Assistant',
     description:
-      'An AI-powered platform that automates and assists with healthcare insurance claims processing, reducing manual effort and improving accuracy using NLP and automation workflows.',
-    tags: ['AI', 'Automation', 'Rust', 'JavaScript'],
+      'An open-source platform that helps you operate AI with terminal-level access for your daily workflows, making them simpler, more secure, and self-hosted.',
+    tags: ['TypeScript', 'React', 'Rust', 'Axum', 'SQLite', 'AI'],
+    icon: Cpu,
+    year: '2026',
+  },
+  {
+    title: 'Kovero AI: AI Powered Healthcare Claims Assistance Platform',
+    description:
+      'A full-fledged user-centric insurance claims assistance platform that simplifies finding the right health policies and helps users prepare for claims. Integrates AI using OCR and transformer-based LLMs for document verification and query resolution.',
+    tags: ['Next.js', 'React', 'TypeScript', 'Rust', 'Axum', 'SQLite', 'Docker', 'AI'],
     icon: Stethoscope,
     year: '2026',
   },
@@ -17,14 +25,6 @@ const projects = [
       'A fully automated client outreach and lead generation system that identifies prospects, personalizes outreach, and manages follow-ups using AI agents.',
     tags: ['Automation', 'Python', 'APIs', 'n8n'],
     icon: Bot,
-    year: '2026',
-  },
-  {
-    title: 'Project Vulcan: AI Assistant',
-    description:
-      'An open-source platform that helps you operate AI with terminal-level access for your daily workflows, making them simpler, more secure, and self-hosted.',
-    tags: ['TypeScript', 'React', 'Rust', 'Axum', 'SQLite', 'AI'],
-    icon: Cpu,
     year: '2026',
   },
   {

@@ -146,33 +146,50 @@ function VulcanVideo() {
 }
 
 /* ============================================
+   VIDEO COMPONENT — Kovero AI
+   ============================================ */
+function KoveroVideo() {
+  return (
+    <video
+      src="/kovero-ai.mp4"
+      autoPlay
+      loop
+      playsInline
+      controls
+      className="w-full h-full object-cover"
+    />
+  );
+}
+
+/* ============================================
    PROTOCOL SECTION (Renamed to Projects)
    ============================================ */
 const protocols = [
   {
     step: '01',
-    title: 'AI Healthcare Claims',
-    description:
-      'An autonomous platform that processes insurance claims using NLP and intelligent automation workflows.',
-    tags: ['AI', 'Automation', 'Rust', 'JavaScript'],
-    visual: <RotatingMotif />,
-  },
-  {
-    step: '02',
-    title: 'Lead Generation System',
-    description:
-      'A fully automated outreach engine that identifies prospects, personalizes messaging, and manages follow-ups.',
-    tags: ['AI Agents', 'APIs', 'Python', 'Automation'],
-    visual: <LaserScan />,
-  },
-  {
-    step: '03',
     title: 'Project Vulcan: AI Assistant',
     description:
       'An open-source platform that helps you operate AI with terminal-level access for your daily workflows, making them simpler, more secure, and self-hosted.',
     tags: ['TypeScript', 'React', 'Rust', 'Axum', 'SQLite', 'AI'],
     visual: <VulcanVideo />,
     link: 'https://project-vulcan.onrender.com/',
+  },
+  {
+    step: '02',
+    title: 'Kovero AI: AI Powered Healthcare Claims Assistance Platform',
+    description:
+      'A full-fledged user-centric insurance claims assistance platform that simplifies finding the right health policies and helps users prepare for claims. Integrates AI using OCR and transformer-based LLMs for document verification and query resolution.',
+    tags: ['Next.js', 'React', 'TypeScript', 'Rust', 'Axum', 'SQLite', 'Docker', 'AI'],
+    visual: <KoveroVideo />,
+    link: 'https://koveroai-alpha.onrender.com/',
+  },
+  {
+    step: '03',
+    title: 'Lead Generation System',
+    description:
+      'A fully automated outreach engine that identifies prospects, personalizes messaging, and manages follow-ups.',
+    tags: ['AI Agents', 'APIs', 'Python', 'Automation'],
+    visual: <LaserScan />,
   },
 ];
 
