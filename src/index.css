@@ -238,7 +238,7 @@ img {
   transition: opacity 0.3s ease;
 }
 
-/* Gradient Mesh Animation */
+/* GPU-Optimized Gradient Mesh Animation */
 .gradient-mesh {
   position: absolute;
   inset: 0;
@@ -246,14 +246,24 @@ img {
   z-index: 0;
   pointer-events: none;
   background-color: var(--color-background);
+  /* Force GPU layer for the entire mesh container */
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .gradient-blob {
   position: absolute;
+  /* Pre-blurred static background images are more performant, */
+  /* but we keep CSS blur with GPU promotion for the current design */
   filter: blur(100px);
   opacity: 0.5;
   border-radius: 50%;
   animation: float 20s infinite ease-in-out;
+  /* Promote each blob to its own GPU layer */
+  will-change: transform;
+  transform: translateZ(0);
+  /* Contain paint to prevent layout recalculation bubbling */
+  contain: paint;
 }
 
 .blob-1 {
@@ -285,13 +295,13 @@ img {
 
 @keyframes float {
   0%, 100% {
-    transform: translate(0, 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
   }
   33% {
-    transform: translate(5vw, 5vw) scale(1.1);
+    transform: translate3d(5vw, 5vw, 0) scale(1.1);
   }
   66% {
-    transform: translate(-5vw, 10vw) scale(0.9);
+    transform: translate3d(-5vw, 10vw, 0) scale(0.9);
   }
 }
 
@@ -309,4 +319,42 @@ img {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ============================================
+   PERFORMANCE UTILITIES
+   ============================================ */
+
+/* GPU-accelerated will-change utilities */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* Content containment for heavy sections */
+.contain-layout {
+  contain: layout;
+}
+
+.contain-paint {
+  contain: paint;
+}
+
+.contain-content {
+  contain: content;
+}
+
+/* Content-visibility for off-screen sections (major perf win) */
+.content-visibility-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 500px;
+}
+
+/* Promote to own GPU layer */
+.gpu-layer {
+  transform: translateZ(0);
+  will-change: transform;
 }

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, memo } from 'react';
 import { motion } from 'framer-motion';
 import { useScrollVelocity } from '../hooks/useScrollVelocity';
 
@@ -7,7 +7,7 @@ interface TiltCardProps {
   className?: string;
 }
 
-export default function TiltCard({ children, className = '' }: TiltCardProps) {
+function TiltCard({ children, className = '' }: TiltCardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
@@ -53,6 +53,8 @@ export default function TiltCard({ children, className = '' }: TiltCardProps) {
       style={{
         transformStyle: 'preserve-3d',
         perspective: 1000,
+        /* GPU layer promotion for butter-smooth transforms */
+        willChange: 'transform',
       }}
     >
       {children}
@@ -65,3 +67,5 @@ export default function TiltCard({ children, className = '' }: TiltCardProps) {
     </motion.div>
   );
 }
+
+export default memo(TiltCard);

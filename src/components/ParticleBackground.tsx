@@ -19,24 +19,34 @@ export default function ParticleBackground() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Cap device pixel ratio for performance on high-DPI screens
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     let animationId: number;
     let particles: Particle[] = [];
+    let isVisible = true;
 
     const colors = ['#14b8a6', '#6366f1', '#0ea5e9', '#f97316'];
 
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // Reset scale before scaling
     };
 
     const createParticles = () => {
-      // Reduced density for calmer atmosphere
-      const count = Math.floor((canvas.width * canvas.height) / 28000);
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      // Cap particle count for performance
+      const count = Math.min(Math.floor((w * h) / 35000), 120);
       particles = [];
       for (let i = 0; i < count; i++) {
         particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
+          x: Math.random() * w,
+          y: Math.random() * h,
           vx: (Math.random() - 0.5) * 0.2,
           vy: (Math.random() - 0.5) * 0.2,
           size: Math.random() * 1.5 + 0.3,
@@ -46,18 +56,35 @@ export default function ParticleBackground() {
       }
     };
 
+    // Visibility tracking to pause when off-screen
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+      },
+      { threshold: 0 }
+    );
+    observer.observe(canvas);
+
     const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (!isVisible) {
+        animationId = requestAnimationFrame(draw);
+        return;
+      }
+
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+
+      ctx.clearRect(0, 0, w, h);
 
       // Draw particles
       particles.forEach((p) => {
         p.x += p.vx;
         p.y += p.vy;
 
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
+        if (p.x < 0) p.x = w;
+        if (p.x > w) p.x = 0;
+        if (p.y < 0) p.y = h;
+        if (p.y > h) p.y = 0;
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
@@ -66,23 +93,23 @@ export default function ParticleBackground() {
         ctx.fill();
       });
 
-      // Draw connections — reduced distance and opacity for subtlety
+      // Draw connections — batched for better performance
       ctx.globalAlpha = 0.04;
       ctx.strokeStyle = '#14b8a6';
       ctx.lineWidth = 0.5;
+      ctx.beginPath();
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 90) {
-            ctx.beginPath();
+          const distSq = dx * dx + dy * dy;
+          if (distSq < 8100) { // 90^2, avoids sqrt for performance
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
           }
         }
       }
+      ctx.stroke();
 
       ctx.globalAlpha = 1;
       animationId = requestAnimationFrame(draw);
@@ -92,14 +119,17 @@ export default function ParticleBackground() {
     createParticles();
     draw();
 
-    window.addEventListener('resize', () => {
+    const handleResize = () => {
       resize();
       createParticles();
-    });
+    };
+
+    window.addEventListener('resize', handleResize);
 
     return () => {
       cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', resize);
+      observer.disconnect();
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
