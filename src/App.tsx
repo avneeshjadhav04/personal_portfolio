@@ -11,7 +11,7 @@ const Features = lazy(() => import('./components/Features'));
 const About = lazy(() => import('./components/About'));
 const Philosophy = lazy(() => import('./components/Philosophy'));
 const Skills = lazy(() => import('./components/Skills'));
-const Protocol = lazy(() => import('./components/Protocol'));
+const FeaturedProjects = lazy(() => import('./components/FeaturedProjects'));
 const Projects = lazy(() => import('./components/Projects'));
 const Experience = lazy(() => import('./components/Experience'));
 const Certifications = lazy(() => import('./components/Certifications'));
@@ -73,7 +73,7 @@ function App() {
           <div className="section-divider" />
           <div className="content-visibility-auto">
             <Suspense fallback={<SectionFallback />}>
-              <Protocol />
+              <FeaturedProjects />
             </Suspense>
           </div>
           <div className="section-divider" />

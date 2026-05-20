@@ -97,9 +97,9 @@ function ProjectVideo({ src }: { src: string }) {
 }
 
 /* ============================================
-    SELECTED PROJECTS — Normal scroll cards
+    FEATURED PROJECTS — Normal scroll cards
    ============================================ */
-const protocols = [
+const featuredProjects = [
   {
     step: '01',
     title: 'Project Vulcan: AI Assistant',
@@ -128,7 +128,7 @@ const protocols = [
   },
 ];
 
-export default function Protocol() {
+export default function FeaturedProjects() {
   const sectionRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<HTMLDivElement[]>([]);
 
@@ -168,7 +168,7 @@ export default function Protocol() {
             Portfolio
           </span>
           <h2 className="text-5xl md:text-7xl font-bold tracking-tighter text-text-primary mb-4 uppercase">
-            Selected <span className="text-gradient">Projects.</span>
+            Featured <span className="text-gradient">Projects.</span>
           </h2>
           <p className="text-xl text-text-secondary max-w-xl mx-auto leading-relaxed font-light">
             Real-world systems solving real problems using AI.
@@ -177,9 +177,9 @@ export default function Protocol() {
 
         {/* Normal stacked cards */}
         <div className="max-w-5xl mx-auto space-y-12 md:space-y-16">
-          {protocols.map((protocol, i) => (
+          {featuredProjects.map((project, i) => (
             <div
-              key={protocol.step}
+              key={project.step}
               ref={(el) => {
                 if (el) cardsRef.current[i] = el;
               }}
@@ -189,11 +189,11 @@ export default function Protocol() {
                 {/* Visual Side */}
                 <div className="relative h-64 md:h-auto md:min-h-[480px] flex items-center justify-center overflow-hidden border-b md:border-b-0 md:border-r border-border">
                   <div className="absolute inset-0">
-                    {protocol.visual}
+                    {project.visual}
                   </div>
                   <div className="relative z-10">
                     <span className="text-8xl md:text-9xl font-bold text-text-primary/5">
-                      {protocol.step}
+                      {project.step}
                     </span>
                   </div>
                 </div>
@@ -201,16 +201,16 @@ export default function Protocol() {
                 {/* Content Side */}
                 <div className="p-8 md:p-12 flex flex-col justify-center">
                   <span className="text-[10px] font-mono-accent uppercase tracking-[0.25em] text-text-secondary mb-4 block">
-                    Project {protocol.step}
+                    Project {project.step}
                   </span>
                   <h3 className="text-3xl md:text-4xl font-bold text-text-primary mb-6 tracking-tight uppercase">
-                    {protocol.title}
+                    {project.title}
                   </h3>
                   <p className="text-lg text-text-secondary leading-relaxed mb-8 font-light">
-                    {protocol.description}
+                    {project.description}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-8">
-                    {protocol.tags.map((tag) => (
+                    {project.tags.map((tag) => (
                       <span
                         key={tag}
                         className="px-3 py-1.5 text-xs font-mono-accent font-medium bg-surface border border-text-primary/20 text-text-primary uppercase tracking-wider"
@@ -219,9 +219,9 @@ export default function Protocol() {
                       </span>
                     ))}
                   </div>
-                  {protocol.link && (
+                  {project.link && (
                     <a
-                      href={protocol.link}
+                      href={project.link}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center px-8 py-4 bg-text-primary text-surface font-mono-accent text-sm uppercase tracking-widest hover:bg-accent transition-colors duration-300"
