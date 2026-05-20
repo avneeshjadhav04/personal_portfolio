@@ -191,7 +191,7 @@ export default function FeaturedProjects() {
                   <div className="absolute inset-0">
                     {project.visual}
                   </div>
-                  <div className="relative z-10">
+                  <div className="relative z-10 pointer-events-none">
                     <span className="text-8xl md:text-9xl font-bold text-text-primary/5">
                       {project.step}
                     </span>
