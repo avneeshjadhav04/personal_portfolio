@@ -1,4 +1,4 @@
-import { useEffect, useRef, memo } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -80,9 +80,9 @@ function LaserScan() {
 }
 
 /* ============================================
-   VIDEO COMPONENT — Paused by default, user-controlled
+   VIDEO COMPONENT
    ============================================ */
-function AutoPlayVideo({ src }: { src: string }) {
+function ProjectVideo({ src }: { src: string }) {
   return (
     <div className="w-full h-full flex items-center justify-center">
       <video
@@ -97,7 +97,7 @@ function AutoPlayVideo({ src }: { src: string }) {
 }
 
 /* ============================================
-   PROTOCOL SECTION (Renamed to Projects)
+    SELECTED PROJECTS — Normal scroll cards
    ============================================ */
 const protocols = [
   {
@@ -106,7 +106,7 @@ const protocols = [
     description:
       'An open-source platform that helps you operate AI with terminal-level access for your daily workflows, making them simpler, more secure, and self-hosted.',
     tags: ['TypeScript', 'React', 'Rust', 'Axum', 'SQLite', 'AI'],
-    visual: <AutoPlayVideo src="/project-vulcan.mp4" />,
+    visual: <ProjectVideo src="/project-vulcan.mp4" />,
     link: 'https://project-vulcan.onrender.com/',
   },
   {
@@ -115,7 +115,7 @@ const protocols = [
     description:
       'A full-fledged user-centric insurance claims assistance platform that simplifies finding the right health policies and helps users prepare for claims. Integrates AI using OCR and transformer-based LLMs for document verification and query resolution.',
     tags: ['Next.js', 'React', 'TypeScript', 'Rust', 'Axum', 'SQLite', 'Docker', 'AI'],
-    visual: <AutoPlayVideo src="/kovero-ai.mp4" />,
+    visual: <ProjectVideo src="/kovero-ai.mp4" />,
     link: 'https://koveroai-alpha.onrender.com/',
   },
   {
@@ -128,7 +128,7 @@ const protocols = [
   },
 ];
 
-const Protocol = memo(function Protocol() {
+export default function Protocol() {
   const sectionRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<HTMLDivElement[]>([]);
 
@@ -136,86 +136,28 @@ const Protocol = memo(function Protocol() {
     const cards = cardsRef.current.filter(Boolean);
     if (cards.length === 0) return;
 
-    const stRefs: ScrollTrigger[] = [];
-
     const ctx = gsap.context(() => {
-      cards.forEach((card, i) => {
-        const isLast = i === cards.length - 1;
-
-        const st = ScrollTrigger.create({
-          trigger: card,
-          start: 'top top',
-          end: isLast ? '+=50%' : 'bottom top',
-          pin: true,
-          pinSpacing: isLast,
-          scrub: true,
-          onUpdate: (self) => {
-            const prev = cards[i - 1];
-            const progress = self.progress;
-
-            // Animate previous card (scale, blur, fade)
-            if (prev) {
-              gsap.set(prev, {
-                scale: 1 - progress * 0.05,
-                filter: `blur(${progress * 10}px)`,
-                opacity: 1 - progress * 0.3,
-              });
-            }
-
-            // Pause videos on cards that are not the current top card
-            syncVideos();
-          },
-        });
-
-        stRefs.push(st);
+      // Simple fade-in + slide-up on scroll for each card
+      cards.forEach((card) => {
+        gsap.fromTo(
+          card,
+          { y: 80, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
       });
     }, sectionRef);
 
-    function syncVideos() {
-      // Find the card that is currently pinned and has the lowest progress
-      // (most recently reached the top — the one on top visually)
-      let activeIdx = -1;
-      let minProgress = Infinity;
-
-      stRefs.forEach((st, idx) => {
-        if (st.isActive && st.progress < minProgress) {
-          minProgress = st.progress;
-          activeIdx = idx;
-        }
-      });
-
-      // Pause all videos except the active (top) card
-      cards.forEach((card, idx) => {
-        const video = card.querySelector('video') as HTMLVideoElement | null;
-        if (video && idx !== activeIdx) {
-          video.pause();
-        }
-      });
-    }
-
-    // Section-level trigger: pause all videos when user scrolls away from Protocol entirely
-    const sectionSt = ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: 'top bottom',
-      end: 'bottom top',
-      onLeave: () => {
-        cardsRef.current.forEach((card) => {
-          const video = card.querySelector('video') as HTMLVideoElement | null;
-          if (video) video.pause();
-        });
-      },
-      onLeaveBack: () => {
-        cardsRef.current.forEach((card) => {
-          const video = card.querySelector('video') as HTMLVideoElement | null;
-          if (video) video.pause();
-        });
-      },
-    });
-
-    return () => {
-      sectionSt.kill();
-      ctx.revert();
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -232,22 +174,20 @@ const Protocol = memo(function Protocol() {
             Real-world systems solving real problems using AI.
           </p>
         </div>
-      </div>
 
-      {/* Stacking Cards */}
-      <div className="relative">
-        {protocols.map((protocol, i) => (
-          <div
-            key={protocol.step}
-            ref={(el) => {
-              if (el) cardsRef.current[i] = el;
-            }}
-            className="w-full min-h-[100dvh] flex items-center justify-center px-6 py-16"
-          >
-            <div className="w-full max-w-5xl rounded-none bg-surface border border-border overflow-hidden shadow-2xl">
+        {/* Normal stacked cards */}
+        <div className="max-w-5xl mx-auto space-y-12 md:space-y-16">
+          {protocols.map((protocol, i) => (
+            <div
+              key={protocol.step}
+              ref={(el) => {
+                if (el) cardsRef.current[i] = el;
+              }}
+              className="rounded-none bg-surface border border-border overflow-hidden shadow-2xl opacity-0"
+            >
               <div className="grid md:grid-cols-2 gap-0">
                 {/* Visual Side */}
-                <div className="relative h-64 md:h-auto md:min-h-[500px] flex items-center justify-center overflow-hidden border-r border-border">
+                <div className="relative h-64 md:h-auto md:min-h-[480px] flex items-center justify-center overflow-hidden border-b md:border-b-0 md:border-r border-border">
                   <div className="absolute inset-0">
                     {protocol.visual}
                   </div>
@@ -292,11 +232,9 @@ const Protocol = memo(function Protocol() {
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );
-});
-
-export default Protocol;
+}
