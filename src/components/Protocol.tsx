@@ -160,23 +160,15 @@ export default function Protocol() {
               });
             }
 
-            // Video playback control
+            // Video playback control — only the fully-visible card plays
+            cards.forEach((c) => {
+              const v = c.querySelector('video') as HTMLVideoElement | null;
+              if (v) v.pause();
+            });
+
             const currentVideo = card.querySelector('video') as HTMLVideoElement | null;
-            const prevVideo = prev?.querySelector('video') as HTMLVideoElement | null;
-
-            // Pause previous card's video as soon as current card starts covering it
-            if (prevVideo && progress > 0) {
-              prevVideo.pause();
-            }
-
-            // Play current card's video only when fully visible (progress near 0)
-            // Pause when being covered by next card (progress increases)
-            if (currentVideo) {
-              if (progress < 0.05) {
-                currentVideo.play();
-              } else {
-                currentVideo.pause();
-              }
+            if (currentVideo && progress < 0.05) {
+              currentVideo.play();
             }
           },
         });
