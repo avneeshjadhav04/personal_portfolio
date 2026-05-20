@@ -193,7 +193,29 @@ export default function Protocol() {
       });
     }
 
-    return () => ctx.revert();
+    // Section-level trigger: pause all videos when user scrolls away from Protocol entirely
+    const sectionSt = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: 'top bottom',
+      end: 'bottom top',
+      onLeave: () => {
+        cardsRef.current.forEach((card) => {
+          const video = card.querySelector('video') as HTMLVideoElement | null;
+          if (video) video.pause();
+        });
+      },
+      onLeaveBack: () => {
+        cardsRef.current.forEach((card) => {
+          const video = card.querySelector('video') as HTMLVideoElement | null;
+          if (video) video.pause();
+        });
+      },
+    });
+
+    return () => {
+      sectionSt.kill();
+      ctx.revert();
+    };
   }, []);
 
   return (
