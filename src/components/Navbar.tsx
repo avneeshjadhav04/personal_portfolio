@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { useSmoothScroll } from '../hooks/useSmoothScroll';
+import { LinkedInIcon, GitHubIcon, EmailIcon } from './Icons';
 
 const navLinks = [
   { name: 'About', href: '#about' },
@@ -78,14 +79,43 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA */}
-          <a
-            href="/cv.pdf"
-            download
-            className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 rounded-none border border-text-primary text-xs font-semibold uppercase tracking-widest text-text-primary hover:bg-text-primary hover:text-surface transition-colors duration-300"
-          >
-            Download CV
-          </a>
+          {/* CTA + Socials */}
+          <div className="hidden md:flex items-center gap-6">
+            <a
+              href="/cv.pdf"
+              download
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-none border border-text-primary text-xs font-semibold uppercase tracking-widest text-text-primary hover:bg-text-primary hover:text-surface transition-colors duration-300"
+            >
+              Download CV
+            </a>
+            <div className="flex items-center gap-4">
+              <a
+                href="https://www.linkedin.com/in/avneeshjadhav/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-secondary hover:text-text-primary transition-colors duration-300"
+                aria-label="LinkedIn"
+              >
+                <LinkedInIcon size={20} />
+              </a>
+              <a
+                href="https://github.com/avneeshjadhav04"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-secondary hover:text-text-primary transition-colors duration-300"
+                aria-label="GitHub"
+              >
+                <GitHubIcon size={20} />
+              </a>
+              <a
+                href="mailto:avneeshjadhav1@gmail.com"
+                className="text-text-secondary hover:text-text-primary transition-colors duration-300"
+                aria-label="Email"
+              >
+                <EmailIcon size={20} />
+              </a>
+            </div>
+          </div>
 
           {/* Mobile Toggle */}
           <button

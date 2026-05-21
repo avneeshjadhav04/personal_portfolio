@@ -51,6 +51,16 @@ export default function Footer() {
               </li>
               <li>
                 <a
+                  href="https://github.com/avneeshjadhav04"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-base text-surface hover:text-accent transition-colors font-medium uppercase tracking-wide"
+                >
+                  GitHub
+                </a>
+              </li>
+              <li>
+                <a
                   href="mailto:avneeshjadhav1@gmail.com"
                   className="text-base text-surface hover:text-accent transition-colors font-medium uppercase tracking-wide"
                 >
