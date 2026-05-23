@@ -59,14 +59,22 @@ const projects = [
     icon: Home,
     year: 'Feb 2024',
   },
-  {
-    title: 'Credit Card Fraud Detection',
-    description:
-      'A Binary Classification model that detects fraudulent credit card transactions with high precision, using feature engineering and ensemble techniques.',
-    tags: ['Binary Classification', 'Python', 'ML', 'Pandas'],
-    icon: CreditCard,
-    year: 'Jan 2024',
-  },
+    {
+      title: 'Credit Card Fraud Detection',
+      description:
+        'A Binary Classification model that detects fraudulent credit card transactions with high precision, using feature engineering and ensemble techniques.',
+      tags: ['Binary Classification', 'Python', 'ML', 'Pandas'],
+      icon: CreditCard,
+      year: 'Jan 2024',
+    },
+    {
+      title: 'LLM From Scratch',
+      description:
+        '124M parameter language model trained from scratch on 2B tokens. Built every layer in PyTorch, no Trainer.train(). Validation perplexity 14.8, trained in 5 hours. Live API, weights, and code available.',
+      tags: ['PyTorch', 'LLM', 'Transformers', 'AI', 'NLP'],
+      icon: Cpu,
+      year: '2026',
+    },
 ];
 
 const container = {
