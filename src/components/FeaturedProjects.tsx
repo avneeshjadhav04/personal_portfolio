@@ -4,80 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* ============================================
-   SVG ANIMATION — Scanning Laser Line
-   ============================================ */
-function LaserScan() {
-  const lineRef = useRef<SVGLineElement>(null);
-  const dotsRef = useRef<SVGGElement>(null);
 
-  useEffect(() => {
-    if (!lineRef.current) return;
-
-    const ctx = gsap.context(() => {
-      gsap.to(lineRef.current, {
-        attr: { x1: 400, x2: 400 },
-        duration: 3,
-        ease: 'power2.inOut',
-        repeat: -1,
-        yoyo: true,
-      });
-
-      const dots = dotsRef.current?.querySelectorAll('circle');
-      if (dots) {
-        gsap.to(dots, {
-          opacity: (i: number) => (i % 3 === 0 ? 0.6 : 0.15),
-          duration: 0.5,
-          repeat: -1,
-          yoyo: true,
-          stagger: {
-            each: 0.1,
-            repeat: -1,
-            yoyo: true,
-          },
-        });
-      }
-    });
-
-    return () => ctx.revert();
-  }, []);
-
-  const dots = [];
-  for (let row = 0; row < 8; row++) {
-    for (let col = 0; col < 12; col++) {
-      dots.push(
-        <circle
-          key={`${row}-${col}`}
-          cx={30 + col * 30}
-          cy={30 + row * 30}
-          r="2"
-          fill="#3333FF"
-          opacity="0.15"
-        />
-      );
-    }
-  }
-
-  return (
-    <svg
-      viewBox="0 0 400 300"
-      className="w-full h-full"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <g ref={dotsRef}>{dots}</g>
-      <line
-        ref={lineRef}
-        x1="0"
-        y1="0"
-        x2="0"
-        y2="300"
-        stroke="#3333FF"
-        strokeWidth="1.5"
-        opacity="0.8"
-      />
-    </svg>
-  );
-}
 
 /* ============================================
    VIDEO COMPONENT
@@ -118,14 +45,14 @@ const featuredProjects = [
     visual: <ProjectVideo src="/kovero-ai.mp4" />,
     link: 'https://koveroai-alpha.onrender.com/',
   },
-  {
-    step: '03',
-    title: 'Lead Generation System',
-    description:
-      'A fully automated outreach engine that identifies prospects, personalizes messaging, and manages follow-ups.',
-    tags: ['AI Agents', 'APIs', 'Python', 'Automation'],
-    visual: <LaserScan />,
-  },
+      {
+        step: '03',
+        title: 'LLM From Scratch',
+        description: '124M parameter language model trained from scratch on 2B tokens. Built every layer manually in PyTorch—no Trainer.train(). Validation perplexity 14.8, trained in 5 hours. Live API, weights, and code available.',
+        tags: ['PyTorch', 'LLM', 'Transformers', 'AI', 'NLP'],
+        visual: <ProjectVideo src="/llm-modal-deployment.png" />,
+        link: 'https://avneeshjadhav04--llm-api.modal.run/',
+      },
 ];
 
 export default function FeaturedProjects() {
