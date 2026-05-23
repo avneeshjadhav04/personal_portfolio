@@ -24,7 +24,7 @@ function ProjectVideo({ src }: { src: string }) {
 }
 
 /* ============================================
-    FEATURED PROJECTS — Normal scroll cards
+    FEATURED PROJECTS  Normal scroll cards
    ============================================ */
 const featuredProjects = [
   {
@@ -48,9 +48,13 @@ const featuredProjects = [
       {
         step: '03',
         title: 'LLM From Scratch',
-        description: '124M parameter language model trained from scratch on 2B tokens. Built every layer manually in PyTorch—no Trainer.train(). Validation perplexity 14.8, trained in 5 hours. Live API, weights, and code available.',
+        description: '124M parameter language model trained from scratch on 2B tokens. Built every layer manually in PyTorch no Trainer.train(). Validation perplexity 14.8, trained in 5 hours. Live API, weights, and code available.',
         tags: ['PyTorch', 'LLM', 'Transformers', 'AI', 'NLP'],
-        visual: <ProjectVideo src="/llm-modal-deployment.png" />,
+        visual: (
+          <div className="w-full h-full flex items-center justify-center">
+            <img src="/llm-modal-deployment.png" alt="LLM From Scratch" className="max-w-[85%] max-h-[85%] object-contain" />
+          </div>
+        ),
         link: 'https://avneeshjadhav04--llm-api.modal.run/',
       },
 ];
