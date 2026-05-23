@@ -70,7 +70,7 @@ const projects = [
     {
       title: 'LLM From Scratch',
       description:
-        '124M parameter language model trained from scratch on 2B tokens. Built every layer manually in PyTorch, no Trainer.train(). Validation perplexity 14.8, trained in 5 hours. Live API, weights, and code available.',
+        '124M parameter language model trained from scratch on 2B tokens. Built every layer in PyTorch, no Trainer.train(). Validation perplexity 14.8, trained in 5 hours. Live API, weights, and code available.',
       tags: ['PyTorch', 'LLM', 'Transformers', 'AI', 'NLP'],
       icon: Cpu,
       year: '2026',
